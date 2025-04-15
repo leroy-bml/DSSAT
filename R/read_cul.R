@@ -64,7 +64,6 @@ read_cul <- function(file_name, col_types=NULL, col_names=NULL,
   switches <- comments[switches_index]
   comments <- comments[-switches_index]
 
-
   begin <- raw_lines %>%
     str_which('^@')
 
@@ -85,9 +84,19 @@ read_cul <- function(file_name, col_types=NULL, col_names=NULL,
                         col_names = col_names,
                         left_justified = left_justified,
                         tier_fmt = tier_fmt,
-                        convert_date_cols = FALSE)) %>%
+                        convert_date_cols = FALSE,
+                        # Workaround for current issue leading to incorrect v_fmt
+                        # being linked to the cul table. V_fmt input used only
+                        # to set column width and data type. Recalculated with
+                        # 'construct_variable_format' regardless of whether it
+                        # was provided as an arg or not. In the case of CUL file this
+                        # can produce deviation from the actual cul_v_fmt template
+                        # For now wporkaround rather than direct correction in
+                        # read_tier_data, uncertain what impact this may have in other instances
+                        store_v_fmt = FALSE)) %>%
     reduce(combine_tiers)
 
+  attr(cul,'v_fmt') <- tier_fmt
   attr(cul,'first_line') <- first_line
   attr(cul,'switches') <- switches
   attr(cul,'comments') <- comments
