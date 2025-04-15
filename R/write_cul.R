@@ -29,13 +29,19 @@ write_cul <- function(cul, file_name){
 
   comments <- fmt_comments(cul)
 
+  switches <- attr(cul,'switches')
+
+  ctable <- write_tier(cul,
+                       pad_name = c('VAR-NAME','VRNAME'))
+
   tier_output <- c(
     first_line,
     '',
     comments,
     "",
-    write_tier(cul,
-               pad_name = c('VAR-NAME','VRNAME')))
+    ctable[1],
+    switches,
+    ctable[-1])
 
   write(tier_output,file_name)
 

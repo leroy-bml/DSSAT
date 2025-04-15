@@ -60,6 +60,11 @@ read_cul <- function(file_name, col_types=NULL, col_names=NULL,
 
   comments <- extract_comments(raw_lines)
 
+  switches_index <- c(grep("^Coeff", comments), grep("^Calibr", comments))
+  switches <- comments[switches_index]
+  comments <- comments[-switches_index]
+
+
   begin <- raw_lines %>%
     str_which('^@')
 
@@ -84,6 +89,7 @@ read_cul <- function(file_name, col_types=NULL, col_names=NULL,
     reduce(combine_tiers)
 
   attr(cul,'first_line') <- first_line
+  attr(cul,'switches') <- switches
   attr(cul,'comments') <- comments
 
   cul <- as_DSSAT_tbl(cul)
