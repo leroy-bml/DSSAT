@@ -30,6 +30,7 @@ write_cul <- function(cul, file_name){
   comments <- fmt_comments(cul)
 
   switches <- attr(cul,'switches')
+  switches <- paste0("!", switches)
 
   ctable <- write_tier(cul,
                        pad_name = c('VAR-NAME','VRNAME'))
