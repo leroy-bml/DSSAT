@@ -45,7 +45,7 @@
 #' @importFrom purrr map
 #'
 
-write_wth <- function(wth, file_name, force_std_fmt = TRUE,
+write_wth <- function(wth, file_name, force_std_fmt = FALSE,
                       location = NULL, comments = NULL,
                       INSI = NULL, LAT = NULL, LONG = NULL,
                       ELEV = NULL, TAV = NULL, AMP = NULL,
@@ -55,7 +55,7 @@ write_wth <- function(wth, file_name, force_std_fmt = TRUE,
     location <- attr(wth, "location")
   }
 
-  location <- paste0('$WEATHER: ', location)
+  location <- paste0('$WEATHER DATA : ', location)
 
   if(is.null(comments)){
     comments <- fmt_comments(wth)
