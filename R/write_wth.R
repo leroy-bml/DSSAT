@@ -55,7 +55,7 @@ write_wth <- function(wth, file_name, force_std_fmt = FALSE,
     location <- attr(wth, "location")
   }
 
-  location <- paste0('$WEATHER DATA : ', location)
+  location <- paste0('*WEATHER DATA : ', location)
 
   if(is.null(comments)){
     comments <- fmt_comments(wth)
