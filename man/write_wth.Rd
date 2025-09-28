@@ -7,7 +7,7 @@
 write_wth(
   wth,
   file_name,
-  force_std_fmt = TRUE,
+  force_std_fmt = FALSE,
   location = NULL,
   comments = NULL,
   INSI = NULL,
