@@ -4,13 +4,7 @@
 \alias{read_sol}
 \title{Reads soil parameters from a single DSSAT soil parameter file (*.SOL)}
 \usage{
-read_sol(
-  file_name,
-  id_soil = NULL,
-  left_justified = NULL,
-  col_types = NULL,
-  col_names = NULL
-)
+read_sol(file_name, id_soil = NULL, nested = TRUE)
 }
 \arguments{
 \item{file_name}{a character vector of length one that contains the name
@@ -19,16 +13,8 @@ of a single DSSAT output file}
 \item{id_soil}{a length-one character vector containing the soil ID code for a
 single soil profile}
 
-\item{left_justified}{A character vector of column names that
-should be left justified}
-
-\item{col_types}{One of NULL, a cols() specification, or a string.
-See \code{\link[readr]{read_fwf}} or \code{vignette("readr")} for
-more details.}
-
-\item{col_names}{A character vector of column names; primarily
-helpful for cases where there are no white spaces between column
-names within the header line}
+\item{nested}{a logical to set whether layer data should be nested in the output
+(one row per soil profile)}
 }
 \value{
 a tibble containing the data from the raw DSSAT file
