@@ -32,7 +32,7 @@
 #' write_sol(sol,sample_sol2)
 #'
 
-write_sol <- function(sol,file_name,title=NULL,append=TRUE,force_std_fmt=TRUE){
+write_sol <- function(sol, file_name, title = NULL, append = TRUE, force_std_fmt = TRUE){
 
   if(is.null(title))  title <- attr(sol,'title')
   if(is.null(title))  title <- 'General DSSAT Soil Input File'
@@ -60,11 +60,55 @@ write_sol <- function(sol,file_name,title=NULL,append=TRUE,force_std_fmt=TRUE){
              })
     )
 
-  if(!append){
-    sol_out <- c(
-      paste0('*SOILS: ', title),
-      comments,
-      sol_out)
+  # Insert comments
+  # TODO: move inside write_sol_profile?
+  if(is.list(comments)) {
+
+    insert_post_comments <- function(raw_lines, post_comments) {
+
+      new_lines <- raw_lines
+      pedon_comments <- post_comments
+
+      # Iterating backwards to ensure line indices remain stable
+      pedon_names_to_insert <- rev(names(pedon_comments))
+
+      for (p_name in pedon_names_to_insert) {
+        comments_to_insert <- pedon_comments[[p_name]]
+        # Find the focal profile based on pedon
+        pattern <- paste0("^\\*", p_name)
+        insert_index <- grep(pattern, new_lines)
+
+        # Check that we found exactly one line to insert after
+        if (length(insert_index) == 1) {
+          new_lines <- append(new_lines,
+                              values = comments_to_insert,
+                              after = insert_index)
+        } else if (length(insert_index) == 0) {
+          warning(paste("Could not find line for PEDON:", p_name))
+        } else {
+          # TODO: insert multiple times?
+          warning(paste("Found multiple lines for PEDON:", p_name, ". No comments inserted."))
+        }
+      }
+
+      return(new_lines)
+    }
+    sol_out <- insert_post_comments(sol_out, post_comments = comments$pedon)
+
+    if(!append){
+      sol_out <- c(
+        paste0('*SOILS: ', title),
+        comments$general,
+        sol_out)
+    }
+  } else {
+
+    if(!append){
+      sol_out <- c(
+        paste0('*SOILS: ', title),
+        comments$general,
+        sol_out)
+    }
   }
 
   write(sol_out, file_name, append = append)
