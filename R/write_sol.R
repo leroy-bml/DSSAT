@@ -106,7 +106,7 @@ write_sol <- function(sol, file_name, title = NULL, append = TRUE, force_std_fmt
     if(!append){
       sol_out <- c(
         paste0('*SOILS: ', title),
-        comments$general,
+        comments,
         sol_out)
     }
   }
