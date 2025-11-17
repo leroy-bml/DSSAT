@@ -14,6 +14,7 @@
 #' @importFrom dplyr "%>%" first
 #' @importFrom stringr str_subset str_replace str_extract str_which str_c
 #' @importFrom purrr map reduce
+#' @importFrom readr cols
 #'
 #' @examples
 #'
@@ -35,19 +36,21 @@ read_sol <- function(file_name, id_soil = NULL, nested = TRUE){
   left_justified <- c('SITE','COUNTRY',' SCS FAMILY', ' SCS Family')
 
   # Specify column types
-  col_types <- cols(`      LAT`=col_double(),
-                    `     LONG`=col_double(),
-                    SSAT=col_double(),
-                    ` SCS FAMILY`=col_character(),
-                    ` SCS Family`=col_character(),
-                    SCOM=col_character(),
-                    COUNTRY=col_character(),
-                    SITE=col_character(),
-                    SMHB=col_character(),
-                    SMPX=col_character(),
-                    SMKE=col_character(),
-                    SLMH=col_character(),
-                    SLB=col_double()) %>%
+  col_types <- readr::cols(
+    `      LAT`=col_double(),
+    `     LONG`=col_double(),
+    SSAT=col_double(),
+    ` SCS FAMILY`=col_character(),
+    ` SCS Family`=col_character(),
+    SCOM=col_character(),
+    COUNTRY=col_character(),
+    SITE=col_character(),
+    SMHB=col_character(),
+    SMPX=col_character(),
+    SMKE=col_character(),
+    SLMH=col_character(),
+    SLB=col_double()
+  ) %>%
     {.$cols <- c(.$cols,col_types$cols);.}
 
   # Store title and comments
