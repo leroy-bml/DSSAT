@@ -14,7 +14,7 @@
 #' @importFrom dplyr "%>%" first
 #' @importFrom stringr str_subset str_replace str_extract str_which str_c
 #' @importFrom purrr map reduce
-#' @importFrom readr cols
+#' @importFrom readr cols col_double col_character
 #'
 #' @examples
 #'
@@ -50,8 +50,8 @@ read_sol <- function(file_name, id_soil = NULL, nested = TRUE){
     SMKE=col_character(),
     SLMH=col_character(),
     SLB=col_double()
-  ) %>%
-    {.$cols <- c(.$cols,col_types$cols);.}
+  )
+    # {.$cols <- c(.$cols,col_types$cols);.}
 
   # Store title and comments
   basename <- basename(file_name)
