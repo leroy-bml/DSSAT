@@ -70,6 +70,7 @@ read_sol <- function(file_name, id_soil = NULL, nested = TRUE){
   # Filter profiles based on id_soil
   if(!is.null(id_soil)){
     pedon_clean_start_end <- pedon_clean_start_end[pedon_clean_start_end$PEDON %in% id_soil, ]
+    comments <- comments[[id_soil]]
   }
 
   # Extract general information for each PEDON
